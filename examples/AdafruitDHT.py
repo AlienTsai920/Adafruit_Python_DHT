@@ -26,8 +26,7 @@ import Adafruit_DHT
 #/usr/bin/python3
 import time
 import sys
-import http.client as http
-import urllib
+import httplib, urllib
 import json
 deviceId = "DB8nP2eg"
 deviceKey = "6f1Vzhw1nr7slqrY"
@@ -36,10 +35,10 @@ def post_to_mcs(payload):
     not_connected = 1
     while (not_connected):
         try:
-            conn = http.HTTPConnection("api.mediatek.com:80")
+            conn = httplib.HTTPConnection("api.mediatek.com:80")
             conn.connect()
             not_connected = 0
-        except (http.HTTPException, socket.error) as ex:
+        except (httplib.HTTPException, socket.error) as ex:
             print ("Error: %s" % ex)
             time.sleep(10)
             #sleep 10 seconds
@@ -74,7 +73,7 @@ humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
 # If this happens try again!
 
 while True:
-    h0,t0=Adafruit_DHT.read_retry(senser,pin)
+    h0,t0=Adafruit_DHT.read_retry(sensor,pin)
     if h0 is not None and t0 is not None:
         print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(t0, h0))
         
